@@ -1,18 +1,31 @@
 use std::io;
 use rand::Rng;
+use std::cmp::Ordering;
+
+
 
 fn main() {
-    let nombre_secret = rand::thread_rng().gen_range(1..100);
+    let secret_number = rand::thread_rng().gen_range(1..100);
 
-    let mut number_text = String::new();
-    println!("entrez un nombre");
-    io::stdin()
-        .read_line(&mut number_text)
-        .expect("Erreur lors de la lecture");
+    let mut suppose = String::new();
+
+    loop {
+        println!("entrez un nombre");
+        io::stdin()
+            .read_line(&mut suppose)
+            .expect("erreur de lecture");
+
+        let suppose : u32 = suppose
+            .trim()
+            .parse()
+            .expect("entrez un nombre");
+
+        match suppose.cmp(&secret_number) {
+            Ordering::Less=>println!("moins"),
+            Ordering::Greater=>println!("plus"),
+            Ordering::Equal=>println!("bravo")
+        }
+    }
     
-    let number_user = number_text
-        .trim()
-        .parse()
-        .expect("valeur incorrect");
    
 }
